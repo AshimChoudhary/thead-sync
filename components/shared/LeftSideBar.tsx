@@ -1,7 +1,7 @@
 'use client';
 
 import { sidebarLinks } from '@/constants';
-import { SignedIn, SignOutButton } from '@clerk/nextjs';
+import { SignedIn, SignOutButton, useClerk } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -9,6 +9,13 @@ import { usePathname, useRouter } from 'next/navigation';
 function LeftSideBar() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { signOut } = useClerk();
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push('/sign-in');
+  };
   return (
     <section className="custom-scrollbar leftsidebar">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
@@ -36,17 +43,15 @@ function LeftSideBar() {
       </div>
       <div className="mt-10 px-6">
         <SignedIn>
-          <SignOutButton redirectUrl="/sign-in">
-            <div className="flex cursor-pointer gap-4 p-4">
-              <Image
-                src="/assets/logout.svg"
-                alt="logout"
-                width={24}
-                height={24}
-              />
-              <p className="text-light-2 max-lg:hidden">LogOut</p>
-            </div>
-          </SignOutButton>
+          <div className="flex cursor-pointer gap-4 p-4" onClick={handleLogout}>
+            <Image
+              src="/assets/logout.svg"
+              alt="logout"
+              width={24}
+              height={24}
+            />
+            <p className="text-light-2 max-lg:hidden">LogOut</p>
+          </div>
         </SignedIn>
       </div>
     </section>
