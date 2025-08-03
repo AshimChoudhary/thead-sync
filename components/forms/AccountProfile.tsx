@@ -1,23 +1,19 @@
 'use client';
 
+import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { userValidation } from '@/lib/validations/user';
-import * as z from 'zod';
-import Image from 'next/image';
-import { ChangeEvent } from 'react';
 import { Textarea } from '../ui/textarea';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { userValidation } from '@/lib/validations/user';
+
+import * as z from 'zod';
+
+import Image from 'next/image';
 
 interface Props {
   user: {
@@ -32,6 +28,7 @@ interface Props {
 }
 
 const AccountProfile = ({ user, btnTitle }: Props) => {
+  const [files, setFiles] = useState<File[]>([]);
   const form = useForm({
     resolver: zodResolver(userValidation),
     defaultValues: {
@@ -43,10 +40,26 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   });
 
   const handleImage = (
-    e: ChangeEvent,
+    e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
   ) => {
     e.preventDefault();
+
+    const fileReader = new FileReader();
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+
+      setFiles(Array.from(e.target.files));
+
+      if (!file.type.includes('image')) return;
+
+      fileReader.onload = async (e) => {
+        const imageDataUrl = e.target?.result?.toString() || '';
+
+        fieldChange(imageDataUrl);
+      };
+      fileReader.readAsDataURL(file);
+    }
   };
 
   function onSubmit(values: z.infer<typeof userValidation>) {
@@ -67,7 +80,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                 {field.value ? (
                   <Image
                     src={field.value}
-                    alt="profile photo"
+                    alt="Profile photo"
                     width={96}
                     height={96}
                     priority
@@ -76,7 +89,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                 ) : (
                   <Image
                     src="/assets/profile.svg"
-                    alt="profile photo"
+                    alt="Profile photo"
                     width={24}
                     height={24}
                     className="object-contain"
