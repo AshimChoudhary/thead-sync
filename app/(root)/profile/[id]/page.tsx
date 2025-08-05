@@ -48,7 +48,7 @@ async function Page({ params }: { params: { id: string } }) {
               </TabsTrigger>
             ))}
           </TabsList>
-          {profileTabs.mao((tab) => (
+          {profileTabs.map((tab) => (
             <TabsContent
               key={`content-${tab.label}`}
               value={tab.value}
