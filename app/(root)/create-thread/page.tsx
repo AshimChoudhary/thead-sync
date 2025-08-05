@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-
 import PostThread from '@/components/forms/PostThread';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs/server';
