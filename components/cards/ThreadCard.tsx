@@ -46,6 +46,7 @@ export default function ThreadCard({
                 src={author.image}
                 alt="Profile Image"
                 fill
+                sizes="44px"
                 className="cursor-pointer rounded-full"
               />
             </Link>
@@ -68,7 +69,7 @@ export default function ThreadCard({
                   height={24}
                   className="cursor-pointer object-contain"
                 />
-                <Link href={`/threads/${id}`}>
+                <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
                     alt="reply"
@@ -93,7 +94,7 @@ export default function ThreadCard({
                 />
               </div>
               {isComment && comments.length > 0 && (
-                <Link href={`/threads/${id}`}>
+                <Link href={`/thread/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">
                     {comments.length} replies
                   </p>
