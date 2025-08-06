@@ -7,8 +7,8 @@ import { profileTabs } from '@/constants';
 import Image from 'next/image';
 import ThreadsTab from '@/components/shared/ThreadsTab';
 
-async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const user = await currentUser();
   if (!user) return null;
