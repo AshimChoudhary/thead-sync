@@ -8,9 +8,13 @@ import ProfileHeader from '@/components/shared/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchUser } from '@/lib/actions/user.actions';
 
-// Next.js 15: params is a Promise!
-async function Page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params; // You must await params
+// ✅ params is a Promise — must be awaited!
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
   const user = await currentUser();
   if (!user) return null;
@@ -50,6 +54,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
               </TabsTrigger>
             ))}
           </TabsList>
+
           {profileTabs.map((tab) => (
             <TabsContent
               key={`content-${tab.label}`}
@@ -69,5 +74,3 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
     </section>
   );
 }
-
-export default Page;
