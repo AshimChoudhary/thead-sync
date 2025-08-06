@@ -7,12 +7,9 @@ import { profileTabs } from '@/constants';
 import Image from 'next/image';
 import ThreadsTab from '@/components/shared/ThreadsTab';
 
-// Correct the type definition for params to be a Promise
-async function Page({ params }: { params: Promise<{ id: string }> }) {
-  // Await the params to get the object with the id
-  const { id } = await params;
+async function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
 
-  // Fetch the current user from Clerk
   const user = await currentUser();
   if (!user) return null;
 
