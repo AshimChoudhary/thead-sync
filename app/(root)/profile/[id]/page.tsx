@@ -8,13 +8,12 @@ import ProfileHeader from '@/components/shared/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchUser } from '@/lib/actions/user.actions';
 
-// ✅ params is a Promise — must be awaited!
+// 🔥 Safe for both build-time and runtime environments
 export default async function Page({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+}: { params: { id: string } } | { params: Promise<{ id: string }> }) {
+  const resolvedParams = await Promise.resolve(params); // handles both sync + async
+  const { id } = resolvedParams;
 
   const user = await currentUser();
   if (!user) return null;
