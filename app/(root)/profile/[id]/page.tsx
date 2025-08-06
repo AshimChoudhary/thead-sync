@@ -8,12 +8,14 @@ import ProfileHeader from '@/components/shared/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchUser } from '@/lib/actions/user.actions';
 
-// 🔥 Safe for both build-time and runtime environments
-export default async function Page({
-  params,
-}: { params: { id: string } } | { params: Promise<{ id: string }> }) {
-  const resolvedParams = await Promise.resolve(params); // handles both sync + async
-  const { id } = resolvedParams;
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function Page({ params }: PageProps) {
+  const { id } = params;
 
   const user = await currentUser();
   if (!user) return null;
@@ -60,7 +62,6 @@ export default async function Page({
               value={tab.value}
               className="w-full text-light-1"
             >
-              {/* @ts-ignore */}
               <ThreadsTab
                 currentUserId={user.id}
                 accountId={userInfo.id}
