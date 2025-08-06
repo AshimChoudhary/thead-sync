@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typeScript: {
-    ignoreBuildErrors: true,
-  },
-  experimental: {
-    serverActions: true,
-    serverComponentsExternalPackages: ['mongoose'],
-  },
+  // Remove the 'typeScript' block as it's not a valid top-level option.
+
+  // Remove the 'experimental' block for serverActions as they are now stable.
+  // The 'serverComponentsExternalPackages' key has been renamed.
+
+  // Use the new, non-experimental key for external packages.
+  serverExternalPackages: ['mongoose'],
+
   eslint: {
     ignoreDuringBuilds: true,
   },

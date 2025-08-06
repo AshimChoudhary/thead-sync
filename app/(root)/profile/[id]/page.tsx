@@ -1,5 +1,3 @@
-// app/(root)/profile/[id]/page.tsx
-
 import { redirect } from 'next/navigation';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs/server';
@@ -16,7 +14,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 
   // Fetch the current user from Clerk
   const user = await currentUser();
-  if (!user) return null; // If no user is found, don't render the page
+  if (!user) return null;
 
   const userInfo = await fetchUser(id);
   if (!userInfo?.onboarded) redirect('/onboarding');
