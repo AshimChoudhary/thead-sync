@@ -1,3 +1,5 @@
+// app/(root)/profile/[id]/page.tsx
+
 import { redirect } from 'next/navigation';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs/server';
@@ -7,11 +9,16 @@ import { profileTabs } from '@/constants';
 import Image from 'next/image';
 import ThreadsTab from '@/components/shared/ThreadsTab';
 
-async function Page({ params }: { params: { id: string } }) {
-  const user = await currentUser();
-  if (!user) return null;
+// Update the type definition to expect a Promise
+async function Page({ params }: { params: Promise<{ id: string }> }) {
+  // Await the params to get the object with the id
+  const { id } = await params;
 
-  const userInfo = await fetchUser(params.id);
+  // Fetch the current user from Clerk
+  const user = await currentUser();
+  if (!user) return null; // If no user is found, don't render the page
+
+  const userInfo = await fetchUser(id);
   if (!userInfo?.onboarded) redirect('/onboarding');
 
   return (
@@ -37,9 +44,7 @@ async function Page({ params }: { params: { id: string } }) {
                   height={24}
                   className="object-contain"
                 />
-
                 <p className="max-sm:hidden">{tab.label}</p>
-
                 {tab.label === 'Threads' && (
                   <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
                     {userInfo?.threads?.length}
