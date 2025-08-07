@@ -14,8 +14,8 @@ interface PageProps {
   params: { id: string };
 }
 
-async function Page(props: PageProps) {
-  const { id } = props.params;
+async function Page({ params }: PageProps) {
+  const { id } = params;
 
   const user = await currentUser();
   if (!user) return null;
