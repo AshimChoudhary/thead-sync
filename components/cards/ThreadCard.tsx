@@ -1,3 +1,5 @@
+import Community from '@/lib/models/community.model';
+import { formatDateString } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -111,6 +113,25 @@ export default function ThreadCard({
           </div>
         </div>
       </div>
+      {!isComment && community && (
+        <Link
+          href={`/communities/${community.id}`}
+          className="mt-5 flex items-center"
+        >
+          <p className="text-subtle-medium text-gray-1">
+            {formatDateString(createdAt)}
+            {'  '}- {community.name} Community
+          </p>
+
+          <Image
+            src={community?.image}
+            alt={community.name}
+            width={14}
+            height={14}
+            className="m-1 rounded-full object-cover"
+          />
+        </Link>
+      )}
     </article>
   );
 }

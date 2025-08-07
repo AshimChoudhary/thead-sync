@@ -9,8 +9,9 @@ import Comment from '@/components/forms/Comment';
 
 export const revalidate = 0;
 
-async function page({ params }: { params: { id: string } }) {
-  if (!params.id) return null;
+async function page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!id) return null;
 
   const user = await currentUser();
   if (!user) return null;
@@ -18,7 +19,7 @@ async function page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect('/onboarding');
 
-  const thread = await fetchThreadById(params.id);
+  const thread = await fetchThreadById(id);
 
   return (
     <section className="relative">
