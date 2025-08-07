@@ -2,6 +2,7 @@
 
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import { useOrganization } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -19,7 +20,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { ThreadValidation } from '@/lib/validations/thread';
 import { createThread } from '@/lib/actions/thread.actions';
 
-import { useOrganization } from '@clerk/nextjs';
 interface Props {
   userId: string;
 }
