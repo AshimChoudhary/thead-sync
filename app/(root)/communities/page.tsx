@@ -1,65 +1,46 @@
-import { currentUser } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-
-import Searchbar from '@/components/shared/Searchbar';
+// app/communities/page.tsx
+import { fetchCommunities } from '@/lib/actions/community.actions';
 import Pagination from '@/components/shared/Pagination';
 import CommunityCard from '@/components/cards/CommunityCard';
+import { headers } from 'next/headers';
 
-import { fetchUser } from '@/lib/actions/user.actions';
-import { fetchCommunities } from '@/lib/actions/community.actions';
+export const dynamic = 'force-dynamic';
 
-async function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
-  const user = await currentUser();
-  if (!user) return null;
+export default async function Page() {
+  // Get request headers and construct full URL
+  const headersList = await headers(); // ✅ Await headers()
+  const host = headersList.get('host');
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const url = `${protocol}://${host}${
+    headersList.get('x-url') || '/communities'
+  }`;
 
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect('/onboarding');
+  // Parse query parameters using the URL API
+  const { searchParams } = new URL(url);
+  const searchString = searchParams.get('q') || '';
+  const page = parseInt(searchParams.get('page') || '1', 10);
 
   const result = await fetchCommunities({
-    searchString: searchParams.q,
-    pageNumber: searchParams?.page ? +searchParams.page : 1,
+    searchString,
+    pageNumber: page,
     pageSize: 25,
   });
 
   return (
     <>
-      <h1 className="head-text">Communities</h1>
-
-      <div className="mt-5">
-        <Searchbar routeType="communities" />
-      </div>
+      <h1 className="head-text mb-10">Communities</h1>
 
       <section className="mt-9 flex flex-wrap gap-4">
         {result.communities.length === 0 ? (
-          <p className="no-result">No Result</p>
+          <p className="no-result">No communities found</p>
         ) : (
-          <>
-            {result.communities.map((community) => (
-              <CommunityCard
-                key={community.id}
-                id={community.id}
-                name={community.name}
-                username={community.username}
-                imgUrl={community.image}
-                bio={community.bio}
-                members={community.members}
-              />
-            ))}
-          </>
+          result.communities.map((community) => (
+            <CommunityCard key={community.id} community={community} />
+          ))
         )}
       </section>
 
-      <Pagination
-        path="communities"
-        pageNumber={searchParams?.page ? +searchParams.page : 1}
-        isNext={result.isNext}
-      />
+      <Pagination path="communities" pageNumber={page} isNext={result.isNext} />
     </>
   );
 }
-
-export default Page;
