@@ -10,12 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { fetchCommunityDetails } from '@/lib/actions/community.actions';
 
-interface PageProps {
-  params: { id: string };
-}
-
-async function Page({ params }: PageProps) {
-  const { id } = params;
+async function page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!id) return null;
 
   const user = await currentUser();
   if (!user) return null;
