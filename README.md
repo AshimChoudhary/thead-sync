@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ThreadSync
 
-## Getting Started
+ThreadSync is an advanced real-time social media platform inspired by Threads, designed to connect users through interactive communities, live discussions, and content sharing.  
+Built with **Next.js 14**, **TypeScript**, **Tailwind CSS**, and **Clerk Authentication**, ThreadSync enables smooth and secure user experiences with powerful real-time features.
 
-First, run the development server:
+🌐 **Live Demo:** [ThreadSync](https://thead-sync-j3ye.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **User Authentication & Authorization** – Secure sign-in/sign-up with Clerk.
+- **Community System** – Create, join, and interact in topic-based communities.
+- **Thread Creation** – Post rich-text threads with optional media uploads.
+- **Comment & Reply System** – Nested replies for deeper discussions.
+- **Real-Time Updates** – Instant thread and comment updates without page refresh.
+- **User Profiles** – Personalized profiles with activity tracking.
+- **Responsive UI** – Optimized for mobile, tablet, and desktop devices.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+**Frontend:**
+- [Next.js 14 (App Router)](https://nextjs.org/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Backend & APIs:**
+- [Clerk](https://clerk.com/) – Authentication & User Management
+- [MongoDB](https://www.mongodb.com/) – Database
+- [UploadThing](https://uploadthing.com/) – File Uploads
+- [Next.js API Routes] – Server-side API handling
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+**Environment Variables**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MONGODB_URL=your_mongodb_connection_string
+
+UPLOADTHING_SECRET=your_uploadthing_secret
+UPLOADTHING_APP_ID=your_uploadthing_app_id
+
+
